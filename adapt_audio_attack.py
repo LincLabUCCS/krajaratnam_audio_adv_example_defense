@@ -223,14 +223,11 @@ key = ["silence", "background", "yes", "no", "up", "down", "left", "right", "on"
 
 def generate_attack(x_orig, target, limit, sess, input_node,
     output_node, max_iters, eps_limit, verbose, index):
-    print("yo wtf")
     pop_size = 500 # 20
     elite_size = 2 #2
     temp = 0.01 # 0.01
     initial_pop = [gen_population_member(x_orig, eps_limit) for _ in range(pop_size)]
-    print("ip")
     randos = [np.random.randint(sys.maxsize) for _ in range(pop_size)]
-    print("randos")
     for idx in range(max_iters):
         print("Example %d, Iteration %d    " %(index, idx))#, end="\r")
         #pop_scores = np.array([ensemble_score(sess, x, target, input_node, output_node) for x in initial_pop])
@@ -362,17 +359,12 @@ def produce_example(sess, attack_target, source, i, index):
             print("byte rate = %d" %(byte_rate))
 
         assert pbs == 16, "Only PBS=16 is supported now"
-        print("rto") 
         attack_output = generate_attack(x_orig, target_idx, eps_limit,
             sess, input_node_name, output_node, max_iters, pbs, verbose, index)
         save_audiofile(attack_output[0], output_dir+'/'+input_file)
         print("Example saved to " + output_dir+'/'+input_file)
         end_time = time.time()
         return(attack_output[1], end_time-start_time)
-        print("Attack done (%d iterations) in %0.4f seconds" %(max_iters, (end_time-start_time)))
-        while(True):
-            time.sleep(100)
-                
        
 
 parser = argparse.ArgumentParser(description="Creates an adaptive adversarial example.")
